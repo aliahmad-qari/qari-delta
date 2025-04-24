@@ -1,0 +1,267 @@
+<style>
+  /* Responsive overrides for small devices only */
+  @media (max-width: 767.98px) {
+    /* Make col-8 offset-2 full width */
+    .col-8.offset-2 {
+      flex: 0 0 100% !important;
+      max-width: 100% !important;
+      margin-left: 0 !important;
+    }
+
+    /* Make card col-8 offset-2 full width */
+    .card.col-8.offset-2 {
+      flex: 0 0 100% !important;
+      max-width: 100% !important;
+      margin-left: 0 !important;
+    }
+
+    /* Make review cards full width */
+    .col-6 {
+      flex: 0 0 100% !important;
+      max-width: 100% !important;
+    }
+
+    /* Buttons container responsive */
+    .d-flex.justify-content-center.gap-3 {
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+      gap: 1rem !important;
+    }
+
+    /* Map container responsive */
+    #map {
+      width: 100% !important;
+      height: 300px !important;
+    }
+
+    /* Comment textarea full width */
+    textarea#comment {
+      width: 100% !important;
+    }
+  }
+</style>
+
+<style>
+  /* Responsive layout improvements */
+  .container-fluid-custom {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  @media (max-width: 991.98px) {
+    .col-8.offset-2 {
+      flex: 0 0 100% !important;
+      max-width: 100% !important;
+      margin-left: 0 !important;
+    }
+    .card.col-8.offset-2 {
+      flex: 0 0 100% !important;
+      max-width: 100% !important;
+      margin-left: 0 !important;
+    }
+    .col-6 {
+      flex: 0 0 100% !important;
+      max-width: 100% !important;
+    }
+    .d-flex.justify-content-center.gap-3 {
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+      gap: 1rem !important;
+    }
+    #map {
+      width: 100% !important;
+      height: 300px !important;
+    }
+    textarea#comment {
+      width: 100% !important;
+    }
+  }
+</style>
+
+<% layout("Layouts/boilerplate.ejs") -%>
+
+<script>
+  const mapToken = "<%= process.env.MAP_TOKEN %>";
+  const listing = <%- JSON.stringify(listing) %>;
+</script>
+
+<body>
+  <br />
+  <div class="container-fluid-custom">
+    <div class="row mt-4">
+      <!-- Title -->
+      <div class="col-8 offset-2 col-md-10 col-lg-8 mx-auto">
+        <h3 class="text-center text-md-start"><%= listing.title %></h3>
+      </div>
+
+      <!-- Card -->
+      <div class="card col-8 offset-2 col-md-10 col-lg-8 mx-auto">
+        <!-- Full-width image -->
+        <img
+          src="<%= listing.image.url %>"
+          class="card-img-top card-img-show"
+          alt="Listing Image"
+        />
+
+        <!-- Card body -->
+        <div class="card-body">
+          <p><strong>Owner:</strong> <%= listing.owner.username %></p>
+          <p><strong>Description:</strong> <%= listing.description %></p>
+          <p>
+            <strong>Price:</strong> ₹<%= listing.price.toLocaleString("en-IN")
+            %>
+          </p>
+          <p><strong>Location:</strong> <%= listing.location %></p>
+          <p><strong>Country:</strong> <%= listing.country %></p>
+        </div>
+      </div>
+    </div>
+
+    <br />
+
+    <!-- Buttons outside the row div -->
+    <% if(currentUser && currentUser._id.equals(listing.owner._id)){ %>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <a
+        href="http://localhost:8080/allList/<%= listing._id %>/edit"
+        class="btn btn-warning btn-lg fw-bold shadow-sm"
+      >
+        Edit the List
+      </a>
+
+      <form action="/allList/<%= listing.id %>?_method=DELETE" method="post">
+        <button type="submit" class="btn btn-danger btn-lg fw-bold shadow-sm">
+          Delete the List
+        </button>
+      </form>
+    </div>
+    <% } %>
+
+    <hr />
+
+    <div class="col-8 offset-2 col-md-10 col-lg-8 mx-auto">
+      <h4>Leave a review</h4>
+      <!-- Added form with CSRF protection -->
+      <% if(currentUser){ %>
+
+      <form
+        action="/allList/<%= listing._id %>/review"
+        method="post"
+        novalidate
+        class="needs-validation"
+      >
+        <div class="mt-4">
+          <fieldset class="starability-slot">
+            <legend>Rating:</legend>
+            <input
+              type="radio"
+              id="no-rate"
+              class="input-no-rate"
+              name="review[rating]"
+              value="1"
+              checked
+              aria-label="No rating."
+            />
+            <input
+              type="radio"
+              id="first-rate1"
+              name="review[rating]"
+              value="1"
+            />
+            <label for="first-rate1" title="Terrible">1 star</label>
+            <input
+              type="radio"
+              id="first-rate2"
+              name="review[rating]"
+              value="2"
+            />
+            <label for="first-rate2" title="Not good">2 stars</label>
+            <input
+              type="radio"
+              id="first-rate3"
+              name="review[rating]"
+              value="3"
+            />
+            <label for="first-rate3" title="Average">3 stars</label>
+            <input
+              type="radio"
+              id="first-rate4"
+              name="review[rating]"
+              value="4"
+            />
+            <label for="first-rate4" title="Very good">4 stars</label>
+            <input
+              type="radio"
+              id="first-rate5"
+              name="review[rating]"
+              value="5"
+            />
+            <label for="first-rate5" title="Amazing">5 stars</label>
+          </fieldset>
+        </div>
+
+        <div class="form-group mt-4">
+          <label for="comment">Comment:</label>
+          <textarea
+            id="comment"
+            name="review[comment]"
+            class="form-control"
+            rows="12"
+            required
+          ></textarea>
+          <div class="invalid-feedback">Comment is required.</div>
+        </div>
+
+        <br />
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+      <% } %>
+    </div>
+    <br />
+    <!-- Review section -->
+    <div class="col-8 offset-2 col-md-10 col-lg-8 mx-auto mb-4">
+      <!-- Separate review section in row -->
+      <hr />
+      <div class="row">
+        <% if (listing.reviews.length > 0) { %>
+        <h4>Reviews</h4>
+        <% } %> <% for (let review of listing.reviews) { %>
+        <div class="col-12 col-md-6">
+          <div class="card mb-3">
+            <div class="card-body">
+              <h3>@<%= review.author.username %></h3>
+              <p
+                class="starability-result card-text"
+                data-rating="<%= review.rating %>"
+              ></p>
+              <p><strong>Comment:</strong> <%= review.comment %></p>
+
+              <p>
+                <strong>Posted at:</strong> <%= new
+                Date(review.createdAt).toLocaleDateString() %> at <%= new
+                Date(review.createdAt).toLocaleTimeString() %>
+              </p>
+            </div>
+            <form
+              class="ms-2 mb-2"
+              action="/allList/<%= listing._id %>/review/<%= review._id %>?_method=DELETE"
+              method="post"
+            >
+              <button type="submit" class="btn btn-danger btn-sm">
+                Delete
+              </button>
+            </form>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+    <br />
+
+    <div class="col-8 offset-2 col-md-10 col-lg-8 mx-auto mb-4">
+      <h4>Where you will be</h4>
+      <div id="map" style="width: 100%; height: 400px"></div>
+    </div>
+  </div>
+</body>

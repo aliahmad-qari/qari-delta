@@ -1,0 +1,46 @@
+<% layout("Layouts/boilerplate.ejs") -%>
+<body>
+  <div class="container my-3">
+    <div class="row">
+      <h2 class="col-12 col-md-6 offset-md-3">Login</h2>
+      <div class="col-12 col-md-6 offset-md-3">
+        <form action="/login" method="post">
+          <div class="mb-3">
+            <label for="username" class="form-label">Username:</label>
+            <input
+              type="text"
+              name="username"
+              id="username"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">Please choose a username.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">Please enter a password.</div>
+          </div>
+          <br />
+          <button type="submit" class="btn btn-success">login Up</button>
+
+          <br />
+          <br />
+
+          <a href="/signup">Don't have an account? Sign up here.</a>
+          <br />
+          <br />
+        </form>
+        <br />
+        <br />
+      </div>
+    </div>
+  </div>
+</body>

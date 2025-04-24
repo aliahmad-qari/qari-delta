@@ -1,0 +1,259 @@
+<% layout("Layouts/boilerplate.ejs") -%>
+
+<style>
+  /* Prevent horizontal overflow */
+  html,
+  body {
+    overflow-x: hidden;
+    box-sizing: border-box;
+    max-width: 100vw;
+  }
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+
+  #filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-left: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .filter {
+    margin-right: 1rem;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+  }
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .filter p {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+  }
+  a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .tax-info {
+    display: none;
+  }
+
+  .tax-toggle {
+    display: flex;
+    align-items: center;
+
+    margin-top: 1rem;
+    margin-left: 2rem;
+
+    border: 2px solid black;
+    padding: 0.8rem;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+  }
+  .tax-toggle .form-check-label {
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+  }
+  
+  
+
+  @media (max-width: 768px) {
+    .card {
+      max-width: 100% !important;
+    }
+
+    .listing-link {
+      max-width: 100%;
+      padding: 0 15px;
+    }
+
+    .card img {
+      width: 100%;
+      height: 300px !important; /* Override inline style */
+      object-fit: cover;
+    }
+
+    .row {
+      margin: 0;
+    }
+
+    .col {
+      padding: 0;
+    }
+
+    .container-fluid {
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  .card {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  .listing-link {
+    width: 100%;
+    display: block;
+  }
+
+  /* Container padding adjustments */
+  @media (min-width: 992px) {
+    /* Large devices */
+    .card {
+      max-width: 350px;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 991.98px) {
+    /* Medium devices */
+    .card {
+      max-width: 320px;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    /* Small devices */
+    .card {
+      max-width: 300px;
+    }
+  }
+
+  @media (max-width: 320px) {
+    /* Extra small devices */
+    .card {
+      max-width: 280px;
+    }
+  }
+</style>
+
+<body>
+  <div class="container-fluid ms-3 ms-md-4 ms-lg-5">
+    <div id="filters" class="mb-3 d-flex flex-wrap align-items-center">
+      <a href="/allList?category=Trending" class="filter">
+        <div><i class="fa-solid fa-fire"></i></div>
+        <p>Trending</p>
+      </a>
+      <a href="/allList?category=Rooms" class="filter">
+        <div><i class="fa-solid fa-bed"></i></div>
+        <p>Rooms</p>
+      </a>
+      <a href="/allList?category=Iconic city" class="filter">
+        <div><i class="fa-solid fa-city"></i></div>
+        <p>Iconic city</p>
+      </a>
+      <a href="/allList?category=Mountains" class="filter">
+        <div><i class="fa-solid fa-mountain"></i></div>
+        <p>Mountains</p>
+      </a>
+      <a href="/allList?category=Castles" class="filter">
+        <div><i class="fa-solid fa-chess-rook"></i></div>
+        <p>Castles</p>
+      </a>
+      <a href="/allList?category=Beach" class="filter">
+        <div><i class="fa-solid fa-umbrella-beach"></i></div>
+        <p>Beach</p>
+      </a>
+      <a href="/allList?category=Arctic" class="filter">
+        <div><i class="fa-solid fa-snowflake"></i></div>
+        <p>Arctic</p>
+      </a>
+      <a href="/allList?category=Farms" class="filter">
+        <div><i class="fa-solid fa-tractor"></i></div>
+        <p>Farms</p>
+      </a>
+      <a href="/allList?category=Nature" class="filter">
+        <div><i class="fa-solid fa-tree"></i></div>
+        <p>Nature</p>
+      </a>
+      <a href="/allList?category=Camping" class="filter">
+        <div><i class="fa-solid fa-campground"></i></div>
+        <p>Camping</p>
+      </a>
+      <a href="/allList?category=Dome" class="filter">
+        <div><i class="fa-solid fa-globe"></i></div>
+        <p>Dome</p>
+      </a>
+      <a href="/allList?category=Boat" class="filter">
+        <div><i class="fa-solid fa-ship"></i></div>
+        <p>Boat</p>
+      </a>
+      <a href="/allList?category=Treehouse" class="filter">
+        <div><i class="fa-solid fa-rocket"></i></div>
+        <p>Treehouse</p>
+      </a>
+      <a href="/allList?category=Houseboat" class="filter">
+        <div><i class="fa-solid fa-house-laptop"></i></div>
+        <p>Houseboat</p>
+      </a>
+
+      <div class="tax-toggle">
+        <div class="form-check-reverse form-switch">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="flexSwitchCheckDefault"
+          />
+          <label class="form-check-label" for="flexSwitchCheckDefault"
+            >Display Total after tax</label
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-2 ">
+      <% for (listing of allListings) { %>
+        <div class="col mb-4 d-flex justify-content-center">
+          <a
+            href="/allList/<%= listing._id %>"
+            class="listing-link text-decoration-none text-dark"
+          >
+            <div class="card h-100 w-100  ">
+              <img
+                style="height: 15rem; object-fit: cover"
+                src="<%= listing.image.url %>"
+                class="card-img-top"
+                alt="Listing Image"
+              />
+              <div class="card-body">
+                <h5 class="card-title"><%= listing.title %></h5>
+                <p class="card-text">
+                  &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
+                  <i class="tax-info"> &nbsp; +18% GST</i>
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+      <% } %>
+    </div>
+  
+  
+
+  <script>
+    let taxesswitch = document.getElementById("flexSwitchCheckDefault");
+    taxesswitch.addEventListener("click", () => {
+      let taxInfo = document.getElementsByClassName("tax-info");
+
+      for (info of taxInfo) {
+        if (info.style.display === "none" || info.style.display === "") {
+          info.style.display = "inline";
+        } else {
+          info.style.display = "none";
+        }
+      }
+    });
+  </script>
+</body>

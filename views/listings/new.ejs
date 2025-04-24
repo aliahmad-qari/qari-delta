@@ -1,0 +1,133 @@
+<style>
+  .form-control {
+    width: 100% !important;
+  }
+</style>
+<% layout("Layouts/boilerplate.ejs") -%>
+<br />
+<div class="container-fluid py-3">
+  <div class="row px-3">
+    <div class="col-12 col-lg-8 mx-auto">
+      <h2>Create a new listing:</h2>
+
+      <form
+        action="/allList"
+        method="post"
+        enctype="multipart/form-data"
+        novalidate
+        class="needs-validation"
+      >
+        <!-- Title -->
+        <div class="mb-3">
+          <label for="title" class="form-label">Title:</label>
+          <input
+            type="text"
+            id="title"
+            name="listing[title]"
+            class="form-control"
+            placeholder="Enter title"
+            required
+          />
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label for="description" class="form-label">Description:</label>
+          <textarea
+            id="description"
+            name="listing[description]"
+            class="form-control"
+            placeholder="Enter description"
+            required
+          ></textarea>
+          <div class="invalid-feedback">Please enter a description.</div>
+        </div>
+
+        <!-- Image URL -->
+        <div class="mb-3">
+          <label for="image" class="form-label">Upload Image:</label>
+          <input type="file" name="listing[image]" class="form-control" />
+        </div>
+
+        <!-- Price and Country -->
+        <div class="row mb-3">
+          <div class="col-12 col-md-6 col-lg-12 mb-3 mb-md-0">
+            <label for="price" class="form-label">Price:</label>
+            <input
+              type="text"
+              id="price"
+              name="listing[price]"
+              class="form-control"
+              placeholder="Enter price"
+              required
+            />
+            <div class="invalid-feedback">Please enter a valid price.</div>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-12">
+            <label for="country" class="form-label">Country:</label>
+            <input
+              type="text"
+              id="country"
+              name="listing[country]"
+              class="form-control"
+              placeholder="Enter country"
+              required
+            />
+            <div class="invalid-feedback">Please enter a valid country.</div>
+          </div>
+        </div>
+
+        <!-- Category -->
+        <div class="mb-3">
+          <label for="category" class="form-label">Category:</label>
+          <select
+            id="category"
+            name="listing[category]"
+            class="form-select"
+            required
+          >
+            <option value="" disabled selected>Select a category</option>
+            <option value="Trending">Trending</option>
+            <option value="Rooms">Rooms</option>
+            <option value="Iconic city">Iconic city</option>
+            <option value="Mountains">Mountains</option>
+            <option value="Castles">Castles</option>
+            <option value="Beach">Beach</option>
+            <option value="Arctic">Arctic</option>
+            <option value="Farms">Farms</option>
+            <option value="Nature">Nature</option>
+            <option value="Camping">Camping</option>
+            <option value="Dome">Dome</option>
+            <option value="Boat">Boat</option>
+          </select>
+          <div class="invalid-feedback">Please select a category.</div>
+        </div>
+
+        <!-- Location -->
+        <div class="mb-3">
+          <label for="location" class="form-label">Location:</label>
+          <input
+            type="text"
+            id="location"
+            name="listing[location]"
+            class="form-control"
+            placeholder="Enter location"
+            required
+          />
+          <div id="validationServer04Feedback" class="invalid-feedback">
+            Please enter valid location.
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-dark btn-lg w-100">
+          Add new List
+        </button>
+        <br />
+        <br />
+      </form>
+    </div>
+  </div>
+</div>

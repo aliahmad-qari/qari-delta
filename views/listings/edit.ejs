@@ -1,0 +1,153 @@
+<style>
+  .form-control {
+    width: 100% !important;
+  }
+  .form-select {
+    width: 100% !important;
+  }
+</style>
+<% layout("Layouts/boilerplate.ejs") -%>
+
+<br />
+<div class="container-fluid py-3">
+  <div class="row px-3">
+    <div class="col-12 col-lg-8 mx-auto">
+      <h2 class="text-center mb-4">Edit Your List</h2>
+
+      <form
+        action="/allList/<%= listing._id %>?_method=PUT"
+        method="POST"
+        enctype="multipart/form-data"
+        novalidate
+        class="needs-validation"
+      >
+        <!-- Title -->
+        <div class="mb-3">
+          <label for="title" class="form-label">Title:</label>
+          <input
+            type="text"
+            id="title"
+            name="listing[title]"
+            class="form-control"
+            value="<%= listing.title %>"
+            required
+          />
+          <div class="invalid-feedback">Title is required.</div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label for="description" class="form-label">Description:</label>
+          <textarea
+            id="description"
+            class="form-control"
+            name="listing[description]"
+            rows="4"
+            required
+          ><%= listing.description %></textarea>
+          <div class="invalid-feedback">Description is required.</div>
+        </div>
+
+        <!-- Image Upload -->
+        <div class="mb-3">
+          <label for="image" class="form-label"> Original Listing Image:</label>
+          <br />
+          <img
+            src="<%= listing.image.url %>"
+            alt="Listing Image"
+            class="img-fluid mb-3"
+            style="max-width: 200px; max-height: 200px; object-fit: cover"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="image" class="form-label">Upload New Image:</label> <br />
+          <input
+            type="file"
+            id="image"
+            name="listing[image]"
+            class="form-control"
+            accept="image/*"
+          />
+        </div>
+
+        <!-- Price and Country -->
+        <div class="row mb-3">
+          <div class="col-12 col-md-6 col-lg-12 mb-3 mb-md-0">
+            <label for="price" class="form-label">Price:</label>
+            <input
+              type="number"
+              id="price"
+              name="listing[price]"
+              class="form-control"
+              value="<%= listing.price %>"
+              required
+            />
+            <div class="invalid-feedback">Price is required.</div>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-12">
+            <label for="country" class="form-label">Country:</label>
+            <input
+              type="text"
+              id="country"
+              name="listing[country]"
+              class="form-control"
+              value="<%= listing.country %>"
+              required
+            />
+            <div class="invalid-feedback">Country is required.</div>
+          </div>
+        </div>
+
+        <!-- Category -->
+        <div class="mb-3">
+          <label for="category" class="form-label">Category:</label>
+          <select
+            id="category"
+            name="listing[category]"
+            class="form-select"
+            required
+          >
+            <option value="" disabled>Select a category</option>
+            <option value="Trending" <%= listing.category === "Trending" ? "selected" : "" %>>Trending</option>
+            <option value="Rooms" <%= listing.category === "Rooms" ? "selected" : "" %>>Rooms</option>
+            <option value="Iconic city" <%= listing.category === "Iconic city" ? "selected" : "" %>>Iconic city</option>
+            <option value="Mountains" <%= listing.category === "Mountains" ? "selected" : "" %>>Mountains</option>
+            <option value="Castles" <%= listing.category === "Castles" ? "selected" : "" %>>Castles</option>
+            <option value="Beach" <%= listing.category === "Beach" ? "selected" : "" %>>Beach</option>
+            <option value="Arctic" <%= listing.category === "Arctic" ? "selected" : "" %>>Arctic</option>
+            <option value="Farms" <%= listing.category === "Farms" ? "selected" : "" %>>Farms</option>
+            <option value="Nature" <%= listing.category === "Nature" ? "selected" : "" %>>Nature</option>
+            <option value="Camping" <%= listing.category === "Camping" ? "selected" : "" %>>Camping</option>
+            <option value="Dome" <%= listing.category === "Dome" ? "selected" : "" %>>Dome</option>
+            <option value="Boat" <%= listing.category === "Boat" ? "selected" : "" %>>Boat</option>
+          </select>
+          <div class="invalid-feedback">Category is required.</div>
+        </div>
+
+        <!-- Location -->
+        <div class="mb-3">
+          <label for="location" class="form-label">Location:</label>
+          <input
+            type="text"
+            id="location"
+            name="listing[location]"
+            class="form-control"
+            value="<%= listing.location %>"
+            required
+          />
+          <div class="invalid-feedback">Location is required.</div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-dark btn-lg w-100">
+          Update
+        </button>
+        <br />
+        <br />
+      </form>
+    </div>
+  </div>
+</div>
+</body>

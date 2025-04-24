@@ -1,0 +1,171 @@
+<style>
+  /* Search Button Styling */
+  .search-btn {
+    background-color: #fe424d;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 25px;
+  }
+
+  .search-btn:hover {
+    background-color: #fe424d;
+    color: white;
+  }
+
+  .btn-search {
+    border-radius: 25px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  /* Adjust the width of search fields on medium screens */
+  @media (max-width: 992px) {
+    .form-control,
+    .form-select {
+      width: 150px !important; /* Smaller width for search input and dropdown */
+    }
+  }
+
+  /* Hide search form on small screens */
+  @media (max-width: 768px) {
+    .search-form {
+      display: none !important;
+    }
+  }
+
+  /* Center navbar items at 804px */
+  @media (max-width: 804px) {
+    .navbar-nav {
+      justify-content: center !important; /* Center-align navbar items */
+      align-items: center !important; /* Vertically align items */
+    }
+
+    .search-form {
+      justify-content: center !important; /* Center-align the search form */
+      align-items: center !important; /* Vertically align the search form */
+    }
+  }
+
+  /* Hide login/signup links on small and medium devices */
+  @media (max-width: 991px) {
+    .auth-links {
+      display: none !important;
+    }
+  }
+
+  /* Show login/signup links on large devices and above */
+  @media (min-width: 992px) {
+    .auth-links {
+      display: block !important;
+    }
+  }
+</style>
+
+<nav class="navbar navbar-expand-md navbar-light bg-light border-bottom sticky-top py-3">
+  <div class="container-fluid">
+    <!-- Brand -->
+    <a class="navbar-brand" href="/allList">
+      <i class="fas fa-compass"></i>
+    </a>
+
+    <!-- Toggler for Mobile View -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Content -->
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <!-- Left-aligned Links -->
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/allList/">Explore</a>
+        </li>
+      </ul>
+
+      <!-- Search Form -->
+      <form
+        class="d-flex align-items-center me-3 search-form"
+        action="/allList"
+        method="GET"
+      >
+        <input
+          name="location"
+          class="form-control me-2 btn-search"
+          type="search"
+          placeholder="Search Destinations"
+          aria-label="Search"
+          style="width: auto; font-size: 0.9rem"
+        />
+        <select
+          name="country"
+          class="form-select me-2"
+          style="width: auto; font-size: 0.9rem"
+          id="country-select"
+        >
+          <option value="">Select Country</option>
+        </select>
+        <button
+          class="btn search-btn d-flex align-items-center"
+          type="submit"
+          id="save-btn"
+          style="padding: 0.3rem 1rem; font-size: 0.9rem"
+        >
+          <i class="fas fa-search me-1"></i> Search
+        </button>
+      </form>
+
+      <!-- Right-aligned Links -->
+      <ul class="navbar-nav ms-auto d-flex align-items-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/allList/new">Airbnb your home</a>
+        </li>
+
+        <!-- Add auth-links class to hide on smaller screens -->
+        <% if (!currentUser) { %>
+          <li class="nav-item auth-links d-none d-lg-block">
+            <a class="btn btn-outline-primary me-2" href="/login"
+              ><b>Log In</b></a
+            >
+          </li>
+          <li class="nav-item auth-links d-none d-lg-block">
+            <a class="btn btn-primary" href="/signup"><b>Sign Up</b></a>
+          </li>
+        <% } else { %>
+          <li class="nav-item auth-links d-none d-lg-block">
+            <a class="btn btn-outline-danger" href="/logout">Log out</a>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Fetch countries from API and populate the dropdown
+  async function loadCountries() {
+    try {
+      const response = await fetch("/api/countries");
+      const countries = await response.json();
+      const select = document.getElementById("country-select");
+      countries.forEach((country) => {
+        const option = document.createElement("option");
+        option.value = country;
+        option.textContent = country;
+        select.appendChild(option);
+      });
+    } catch (error) {
+      console.error("Error loading countries:", error);
+    }
+  }
+  loadCountries();
+</script>
