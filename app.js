@@ -117,6 +117,13 @@ app.use(userRouter);
 app.use("/api/countries", countriesApiRoutes);
 
 // 404 Error handling
+
+
+// Home route to prevent 404 at root
+app.get("/", (req, res) => {
+  res.redirect("/allList");
+});
+
 app.all("*", (req, res, next) => {
   next(new ExpressError(404, "Page not found!"));
 });

@@ -199,4 +199,19 @@ footer {
   width: 100% !important;
   height: 300px !important;
 }
-</create_file>
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.body-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
+
